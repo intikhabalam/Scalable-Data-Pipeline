@@ -1,0 +1,10 @@
+-- Create table for suppliers
+CREATE TABLE Suppliers (
+    SupplierID INT IDENTITY(1,1),
+    SupplierName NVARCHAR(255) NOT NULL,
+    ContactName NVARCHAR(100),
+    Phone NVARCHAR(50),
+    Email NVARCHAR(255) UNIQUE,
+    Address NVARCHAR(255)
+);
+

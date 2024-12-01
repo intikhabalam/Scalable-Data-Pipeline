@@ -1,0 +1,45 @@
+-------------------------------AZ CLI---------------------------------------
+#!/bin/bash
+
+# Variables
+RESOURCE_GROUP="CustomerReviewsRG"
+LOCATION="EastUS"
+STORAGE_ACCOUNT="crstorageacct"
+SQL_SERVER="customersqlserver"
+SQL_DATABASE="CustomerReviewsDB"
+SQL_ADMIN="sqladmin"
+SQL_PASSWORD="P@ssw0rd1234!"
+DATA_FACTORY="CustomerReviewsADF"
+LOG_ANALYTICS="CRLogAnalytics"
+LOG_ANALYTICS_WS_KEY="<Your Log Analytics Key>"
+
+# Create Resource Group
+az group create --name $RESOURCE_GROUP --location $LOCATION
+
+# Create Storage Account
+az storage account create --name $STORAGE_ACCOUNT --resource-group $RESOURCE_GROUP --location $LOCATION --sku Standard_LRS
+
+# Create SQL Server
+az sql server create --name $SQL_SERVER --resource-group $RESOURCE_GROUP --location $LOCATION --admin-user $SQL_ADMIN --admin-password $SQL_PASSWORD
+
+# Create SQL Database
+az sql db create --name $SQL_DATABASE --server $SQL_SERVER --resource-group $RESOURCE_GROUP --service-objective S0
+
+# Create Data Factory
+az datafactory create --name $DATA_FACTORY --resource-group $RESOURCE_GROUP --location $LOCATION
+
+# Link Storage Account to Data Factory
+STORAGE_CONNECTION_STRING=$(az storage account show-connection-string --name $STORAGE_ACCOUNT --resource-group $RESOURCE_GROUP -o tsv)
+az datafactory linked-service create --factory-name $DATA_FACTORY --resource-group $RESOURCE_GROUP --linked-service-name "AzureStorage" \
+    --properties "{\"type\":\"AzureBlobStorage\", \"typeProperties\": {\"connectionString\": \"$STORAGE_CONNECTION_STRING\"}}"
+
+# Create Log Analytics Workspace
+az monitor log-analytics workspace create --resource-group $RESOURCE_GROUP --workspace-name $LOG_ANALYTICS --location $LOCATION
+
+# Configure Diagnostic Settings for Data Factory
+az monitor diagnostic-settings create --resource $DATA_FACTORY --resource-group $RESOURCE_GROUP \
+    --name "ADFDiagSettings" \
+    --workspace $LOG_ANALYTICS \
+    --logs '[{"category": "PipelineRuns","enabled": true},{"category": "TriggerRuns","enabled": true}]' \
+    --metrics '[{"category": "AllMetrics","enabled": true}]'
+

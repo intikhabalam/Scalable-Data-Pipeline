@@ -1,0 +1,9 @@
+-- Create table for departments
+CREATE TABLE Departments (
+    DepartmentID INT IDENTITY(1,1),
+    DepartmentName NVARCHAR(255) UNIQUE NOT NULL,
+    ManagerName NVARCHAR(255),
+    Location NVARCHAR(255),
+    Budget DECIMAL(15,2) CHECK (Budget >= 0)
+);
+

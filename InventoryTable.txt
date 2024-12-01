@@ -1,0 +1,10 @@
+
+-- Create table for inventory
+CREATE TABLE Inventory (
+    InventoryID INT IDENTITY(1,1),
+    ProductID INT NOT NULL,
+    SupplierID INT NOT NULL,
+    QuantityInStock INT CHECK (QuantityInStock >= 0),
+    ReorderLevel INT CHECK (ReorderLevel >= 0),
+    UnitPrice DECIMAL(10,2) CHECK (UnitPrice >= 0)
+);

@@ -1,0 +1,9 @@
+-- Create table for reviews
+CREATE TABLE Reviews (
+    ReviewID INT IDENTITY(1,1),
+    CustomerID INT NOT NULL,
+    ProductID INT NOT NULL,
+    ReviewText NVARCHAR(MAX),
+    ReviewDate DATETIME DEFAULT GETDATE(),
+    SentimentScore FLOAT CHECK (SentimentScore BETWEEN 0 AND 1)
+);

@@ -1,0 +1,8 @@
+-- Create table for products
+CREATE TABLE Products (
+    ProductID INT IDENTITY(1,1),
+    ProductName NVARCHAR(255) NOT NULL,
+    Category NVARCHAR(100),
+    Price DECIMAL(10, 2) CHECK (Price >= 0)
+);
+

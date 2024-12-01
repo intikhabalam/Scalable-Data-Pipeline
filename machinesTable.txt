@@ -1,0 +1,8 @@
+-- Create table for machines
+CREATE TABLE Machines (
+    MachineID INT IDENTITY(1,1),
+    MachineName NVARCHAR(100) NOT NULL,
+    MachineType NVARCHAR(50),
+    Location NVARCHAR(255),
+    DateInstalled DATE DEFAULT GETDATE()
+);

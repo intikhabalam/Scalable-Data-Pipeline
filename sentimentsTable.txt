@@ -1,0 +1,7 @@
+-- Create table for sentiments
+CREATE TABLE Sentiments (
+    SentimentID INT IDENTITY(1,1),
+    ReviewID INT NOT NULL,
+    SentimentType NVARCHAR(50),
+    SentimentScore FLOAT CHECK (SentimentScore BETWEEN 0 AND 1)
+);

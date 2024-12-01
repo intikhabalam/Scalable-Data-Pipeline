@@ -1,0 +1,12 @@
+
+------------------------------------------------------------------------
+
+-- Create table for customers 
+CREATE TABLE Customers (
+    CustomerID INT IDENTITY(1,1),
+    CustomerName NVARCHAR(255) NOT NULL,
+    Email NVARCHAR(255) UNIQUE NOT NULL,
+    PhoneNumber NVARCHAR(20),
+    DateJoined DATETIME DEFAULT GETDATE()
+);
+

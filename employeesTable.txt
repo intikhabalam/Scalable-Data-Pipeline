@@ -1,0 +1,12 @@
+-- Create table for employees
+CREATE TABLE Employees (
+    EmployeeID INT IDENTITY(1,1),
+    FirstName NVARCHAR(100) NOT NULL,
+    LastName NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(255) UNIQUE,
+    DepartmentID INT NOT NULL,
+    JobTitle NVARCHAR(100),
+    HireDate DATE DEFAULT GETDATE(),
+    Salary DECIMAL(15,2) CHECK (Salary >= 0)
+);
+
